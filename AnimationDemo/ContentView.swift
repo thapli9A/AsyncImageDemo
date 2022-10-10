@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
 		NavigationView {
 			parentView
-				.navigationBarTitleDisplayMode(.inline)
+//				.navigationBarTitleDisplayMode(.inline)
 				.onAppear {
 					dummyText += "\(dummyText.count)"
 				}
@@ -25,10 +25,10 @@ struct ContentView: View {
 	private var parentView: some View {
 		VStack {
 			Spacer()
-			NavigationLink("PUSH MRE") {
+			NavigationLink("PUSH ME") {
 				NewView()
 			}
-			.buttonStyle(.plain)
+//			.buttonStyle(.plain)
 			Text(dummyText)
 			animationView
 			Spacer()
