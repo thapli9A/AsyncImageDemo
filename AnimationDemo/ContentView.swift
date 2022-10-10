@@ -12,10 +12,14 @@ struct ContentView: View {
 	@State var dummyText = "asddadas"
 	let url = "https://raw.githubusercontent.com/thapli9A/AsyncImageDemo/main/Images/img101.png"
 
+	init() {
+
+	}
+
     var body: some View {
 		NavigationView {
 			parentView
-//				.navigationBarTitleDisplayMode(.inline)
+				.navigationBarTitleDisplayMode(.inline)
 				.onAppear {
 					dummyText += "\(dummyText.count)"
 				}
@@ -28,7 +32,6 @@ struct ContentView: View {
 			NavigationLink("PUSH ME") {
 				NewView()
 			}
-//			.buttonStyle(.plain)
 			Text(dummyText)
 			animationView
 			Spacer()
@@ -37,10 +40,12 @@ struct ContentView: View {
 
 	private var animationView: some View {
 		HStack {
-			AsyncImage(url: URL(string: url)!)
-				.aspectRatio(contentMode: .fit)
-				.frame(width: 300, height: 600)
-				.clipShape(Rectangle())
+			AsyncImage(url: URL(string: url)) { image in
+				image.resizable()
+			} placeholder: {
+				ProgressView()
+			}
+			.frame(width: 250, height: 480)
 		}
 		.padding(.horizontal, 50)
 	}
