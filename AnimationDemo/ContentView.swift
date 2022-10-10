@@ -9,17 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
 
-	@State var dummyText = "asddadas"
+	@State var dummyText = "TAP ME CHANGE IMAGE"
 	@State var refreshMe = false
-	let url = "https://raw.githubusercontent.com/thapli9A/AsyncImageDemo/main/Images/img101.png"
+	@State var url = ""
+	let url1 = "https://raw.githubusercontent.com/thapli9A/AsyncImageDemo/main/Images/img101.png"
+	let url2 = "https://via.placeholder.com/150/d32776"
 
 	var body: some View {
 		NavigationView {
 			parentView
 				.navigationBarTitleDisplayMode(.inline)
 				.onAppear {
-					dummyText += "\(dummyText.count)"
-					refreshMe.toggle()
+					url = url1
 				}
 		}
 	}
@@ -33,7 +34,11 @@ struct ContentView: View {
 			Text(dummyText)
 				.onTapGesture {
 					print("CALLL CLAL")
-					refreshMe.toggle()
+					if url == url1 {
+						url = url2
+					} else {
+						url = url1
+					}
 				}
 			animationView
 			Spacer()
