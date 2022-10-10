@@ -10,21 +10,19 @@ import SwiftUI
 struct ContentView: View {
 
 	@State var dummyText = "asddadas"
+	@State var refreshMe = false
 	let url = "https://raw.githubusercontent.com/thapli9A/AsyncImageDemo/main/Images/img101.png"
 
-	init() {
-
-	}
-
-    var body: some View {
+	var body: some View {
 		NavigationView {
 			parentView
 				.navigationBarTitleDisplayMode(.inline)
 				.onAppear {
 					dummyText += "\(dummyText.count)"
+					refreshMe.toggle()
 				}
 		}
-    }
+	}
 
 	private var parentView: some View {
 		VStack {
@@ -33,28 +31,41 @@ struct ContentView: View {
 				NewView()
 			}
 			Text(dummyText)
+				.onTapGesture {
+					print("CALLL CLAL")
+					refreshMe.toggle()
+				}
 			animationView
 			Spacer()
 		}
+		.accentColor(refreshMe ? .black : .black)
 	}
 
 	private var animationView: some View {
 		HStack {
-			AsyncImage(url: URL(string: url)) { image in
-				image.resizable()
-			} placeholder: {
-				ProgressView()
+			AsyncImage(url: URL(string: url)) { phase in
+				switch phase {
+				case .empty:
+					ProgressView()
+				case .success(let image):
+					image.resizable()
+						.aspectRatio(contentMode: .fit)
+						.frame(maxWidth: 300, maxHeight: 450)
+				case .failure:
+					Image(systemName: "photo")
+				@unknown default:
+					Color.red
+				}
 			}
-			.frame(width: 250, height: 480)
+			.padding(.horizontal, 50)
 		}
-		.padding(.horizontal, 50)
 	}
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+	static var previews: some View {
+		ContentView()
+	}
 }
 
 struct NewView: View {
